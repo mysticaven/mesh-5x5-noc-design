@@ -1,0 +1,12 @@
+# Compilation & Waveform Artifacts
+*.vvp
+*.vcd
+*.log
+
+# IDE & Tool Folders
+.idea/
+.cursor/
+
+# Temporary / OS Files
+.DS_Store
+Thumbs.db
