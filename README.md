@@ -189,14 +189,14 @@ The codebase includes an exhaustive **8-testbench suite** validated using Icarus
 
 | Testbench File | Target Module | Scope & Description | Status |
 | :--- | :--- | :--- | :---: |
-| [`tb_router.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/tb_router.sv) | `mesh_router_5x5.sv` | Single router unit test across all 5 ports (Local, East, West, North, South) | **PASS** |
-| [`tb_mesh_directed.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/tb_mesh_directed.sv) | `mesh_4x4.sv` | Corner-to-corner directed routing in 4x4 grid | **PASS** |
-| [`tb_mesh_directed_16x16.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/tb_mesh_directed_16x16.sv) | `mesh_4x4.sv` | **Exhaustive 256-pair test** (Every node $i \to j$ for all $16 \times 16$ pairs) | **PASS** |
-| [`tb_mesh_single.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/tb_mesh_single.sv) | `mesh_4x4.sv` | Single destination congestion & back-to-back stream stress | **PASS** |
-| [`tb_mesh_backpressure.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/tb_mesh_backpressure.sv) | `mesh_4x4.sv` | Downstream stall injection & destination release dynamics | **PASS** |
-| [`tb_mesh_random.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/tb_mesh_random.sv) | `mesh_4x4.sv` | Random traffic pattern with randomized backpressure stalls | **PASS** |
-| [`tb_mesh_large.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/tb_mesh_large.sv) | `mesh_4x4.sv` | **Massive Stress Test**: 20,000 randomized packets across the mesh | **PASS** |
-| [`tb_mesh_5x5.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/tb_mesh_5x5.sv) | `mesh_5x5.sv` | 5x5 Grid topology validation (25 nodes, corner-to-corner & center transfers) | **PASS** |
+| [`dv/tb_router.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/dv/tb_router.sv) | `rtl/mesh_router_5x5.sv` | Single router unit test across all 5 ports (Local, East, West, North, South) | **PASS** |
+| [`dv/tb_mesh_directed.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/dv/tb_mesh_directed.sv) | `rtl/mesh_4x4.sv` | Corner-to-corner directed routing in 4x4 grid | **PASS** |
+| [`dv/tb_mesh_directed_16x16.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/dv/tb_mesh_directed_16x16.sv) | `rtl/mesh_4x4.sv` | **Exhaustive 256-pair test** (Every node $i \to j$ for all $16 \times 16$ pairs) | **PASS** |
+| [`dv/tb_mesh_single.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/dv/tb_mesh_single.sv) | `rtl/mesh_4x4.sv` | Single destination congestion & back-to-back stream stress | **PASS** |
+| [`dv/tb_mesh_backpressure.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/dv/tb_mesh_backpressure.sv) | `rtl/mesh_4x4.sv` | Downstream stall injection & destination release dynamics | **PASS** |
+| [`dv/tb_mesh_random.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/dv/tb_mesh_random.sv) | `rtl/mesh_4x4.sv` | Random traffic pattern with randomized backpressure stalls | **PASS** |
+| [`dv/tb_mesh_large.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/dv/tb_mesh_large.sv) | `rtl/mesh_4x4.sv` | **Massive Stress Test**: 20,000 randomized packets across the mesh | **PASS** |
+| [`dv/tb_mesh_5x5.sv`](file:///c:/Users/gowsh/Downloads/TestBenches-20260601T021019Z-3-001/TestBenches/dv/tb_mesh_5x5.sv) | `rtl/mesh_5x5.sv` | 5x5 Grid topology validation (25 nodes, corner-to-corner & center transfers) | **PASS** |
 
 ---
 
@@ -206,15 +206,21 @@ The codebase includes an exhaustive **8-testbench suite** validated using Icarus
 
 - **Icarus Verilog** (`iverilog` v11.0+)
 - **GTKWave** (Optional, for waveform inspection)
-- **PowerShell** (Windows) or **Bash** (Linux / macOS)
+- **PowerShell** (Windows), **Bash** (Linux/macOS), or **Make**
 
-### Running All Testbenches (Automated Script)
+### Running All Testbenches (Automated Build Tools)
 
-To execute the entire verification suite automatically:
+You can run the entire verification suite using any of your preferred build environments:
 
-```powershell
-# Windows PowerShell
+```bash
+# Option 1: Using Makefile (Linux / macOS / Windows with Make)
+make all
+
+# Option 2: Using PowerShell (Windows)
 .\run_all.ps1
+
+# Option 3: Using Bash (Linux / macOS)
+./sim/run_all.sh
 ```
 
 Expected Output:
@@ -223,28 +229,28 @@ Expected Output:
                            SUMMARY OF RESULTS                         
 ======================================================================
 
-Testbench              Compile SimResult LogFile                   
----------              ------- --------- -------                   
-tb_router              OK      PASS      tb_router.log             
-tb_mesh_directed       OK      PASS      tb_mesh_directed.log      
-tb_mesh_directed_16x16 OK      PASS      tb_mesh_directed_16x16.log
-tb_mesh_single         OK      PASS      tb_mesh_single.log        
-tb_mesh_backpressure   OK      PASS      tb_mesh_backpressure.log  
-tb_mesh_random         OK      PASS      tb_mesh_random.log        
-tb_mesh_large          OK      PASS      tb_mesh_large.log         
-tb_mesh_5x5            OK      PASS      tb_mesh_5x5.log           
+Testbench              Compile SimResult LogFile                       
+---------              ------- --------- -------                       
+tb_router              OK      PASS      sim/tb_router.log             
+tb_mesh_directed       OK      PASS      sim/tb_mesh_directed.log      
+tb_mesh_directed_16x16 OK      PASS      sim/tb_mesh_directed_16x16.log
+tb_mesh_single         OK      PASS      sim/tb_mesh_single.log        
+tb_mesh_backpressure   OK      PASS      sim/tb_mesh_backpressure.log  
+tb_mesh_random         OK      PASS      sim/tb_mesh_random.log        
+tb_mesh_large          OK      PASS      sim/tb_mesh_large.log         
+tb_mesh_5x5            OK      PASS      sim/tb_mesh_5x5.log           
 ```
 
 ### Manual Compilation & Simulation (Individual Testbenches)
 
-To compile and simulate a specific testbench (e.g., 5x5 Mesh):
+To compile and simulate a specific testbench manually (e.g., 5x5 Mesh):
 
 ```bash
 # 1. Compile with Icarus Verilog (IEEE 1800-2012 SystemVerilog standard)
-iverilog -g2012 -o tb_mesh_5x5.vvp tb_mesh_5x5.sv mesh_5x5.sv mesh_router_5x5.sv
+iverilog -g2012 -o sim/tb_mesh_5x5.vvp dv/tb_mesh_5x5.sv rtl/mesh_5x5.sv rtl/mesh_router_5x5.sv
 
 # 2. Execute simulation
-vvp tb_mesh_5x5.vvp
+vvp sim/tb_mesh_5x5.vvp
 
 # 3. View Waveforms in GTKWave
 gtkwave mesh_5x5.vcd
@@ -256,20 +262,28 @@ gtkwave mesh_5x5.vcd
 
 ```text
 mesh-5x5-noc-design/
-├── mesh_router_5x5.sv           # Core 5-Port Router Unit (Elastic Buf, XY Route, RR Arb)
-├── mesh_5x5.sv                  # 5x5 2D Mesh NoC Top Level (25 Nodes)
-├── mesh_4x4.sv                  # 4x4 2D Mesh NoC Top Level (16 Nodes)
-├── tb_router.sv                 # Unit Testbench for 5-port Router
-├── tb_mesh_5x5.sv               # Directed Testbench for 5x5 Mesh Top Level
-├── tb_mesh_directed.sv          # Corner-to-corner Testbench for 4x4 Mesh
-├── tb_mesh_directed_16x16.sv    # Exhaustive 256-pair Testbench for 4x4 Mesh
-├── tb_mesh_single.sv            # Congestion & Single Destination Testbench
-├── tb_mesh_backpressure.sv      # Backpressure & Stall Testbench
-├── tb_mesh_random.sv            # Random Traffic Testbench
-├── tb_mesh_large.sv             # 20,000 Packet Stress Testbench
-├── run_all.ps1                  # PowerShell Test Automation Runner
-├── .gitignore                   # Excludes binaries, waveforms (*.vcd), and logs
-└── README.md                    # Comprehensive Project Documentation
+├── rtl/                        # Synthesizable RTL Source Code
+│   ├── mesh_router_5x5.sv      # 5-Port Router Unit (Elastic Buf, XY Route, RR Arb)
+│   ├── mesh_5x5.sv             # 5x5 2D Mesh NoC Top Level (25 Nodes)
+│   └── mesh_4x4.sv             # 4x4 2D Mesh NoC Top Level (16 Nodes)
+├── dv/                         # Design Verification & Testbenches
+│   ├── tb_router.sv            # Unit Testbench for 5-port Router
+│   ├── tb_mesh_5x5.sv          # Directed Testbench for 5x5 Mesh Top Level
+│   ├── tb_mesh_directed.sv     # Corner-to-corner Testbench for 4x4 Mesh
+│   ├── tb_mesh_directed_16x16.sv # Exhaustive 256-pair Testbench for 4x4 Mesh
+│   ├── tb_mesh_single.sv       # Congestion & Single Destination Testbench
+│   ├── tb_mesh_backpressure.sv # Backpressure & Stall Testbench
+│   ├── tb_mesh_random.sv       # Random Traffic Testbench
+│   └── tb_mesh_large.sv        # 20,000 Packet Stress Testbench
+├── sim/                        # Simulation Scripts & Build Logs
+│   ├── run_all.ps1             # PowerShell Test Automation Runner
+│   └── run_all.sh              # Bash Test Automation Runner
+├── docs/                       # Architectural Specifications & Presentations
+│   └── noc_mesh_presentation.pptx # Project Slide Deck Presentation
+├── Makefile                    # Industry Standard Build Targets (make all, make 5x5, make clean)
+├── LICENSE                     # MIT Open Source License
+├── .gitignore                  # Excludes binaries, waveforms (*.vcd), and logs
+└── README.md                   # Comprehensive Project Documentation
 ```
 
 ---
